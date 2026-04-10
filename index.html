@@ -87,13 +87,13 @@
             max-width: 1280px;
             display: flex;
             flex-direction: column;
-            align-items: center;
+            align-items: stretch;
         }
 
         /* 2. TYPOGRAPHY */
         h1, h2, h3, h4 { color: var(--text-primary); font-weight: 600; margin: 0; letter-spacing: -0.02em; transition: color 0.3s ease;}
         
-        .accent-text { background: linear-gradient(135deg, #2997ff 0%, #ab61d2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block; }
+        .accent-text { background: linear-gradient(135deg, #2997ff 0%, #ab61d2 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; display: inline-block; }
         .accent-green { color: #34c759; }
         .accent-red { color: #ff3b30; }
         .accent-blue { color: #2997ff; }
@@ -101,18 +101,61 @@
         p, li, .subtitle, .number-label { color: var(--text-secondary); font-weight: 400; transition: color 0.3s ease;}
 
         h1 { font-size: 80px; font-weight: 700; letter-spacing: -0.04em; }
-        .slide-title { font-size: 52px; font-weight: 600; margin-bottom: 50px; text-align: center; width: 100%; letter-spacing: -0.02em; }
-        .left-align .slide-title { text-align: left; }
+        .slide-title { font-size: 52px; font-weight: 600; margin-bottom: 50px; text-align: left; width: 100%; letter-spacing: -0.02em; }
         
         h3 { font-size: 28px; margin-bottom: 12px; }
         p, li { font-size: 20px; line-height: 1.5; }
-        .subtitle { font-size: 28px; margin: 20px auto 0; max-width: 900px; text-align: center;}
+        .subtitle { font-size: 28px; margin: 20px 0 0 0; max-width: 900px; text-align: left;}
 
         .content-area { display: flex; flex-direction: column; flex-grow: 1; justify-content: center; width: 100%; }
 
         /* 3. LAYOUTS */
         .title-layout { text-align: center; }
-        .section-title-layout { align-items: center; display: flex; flex-direction: column; justify-content: center; text-align: center; width: 100%; height: 100%;}
+        .section-title-layout { align-items: flex-start; display: flex; flex-direction: column; justify-content: center; text-align: left; width: 100%; height: 100%;}
+
+        /* Эхний / сүүлийн слайд — гарчиг, танилцуулга төвд */
+        #slide1 .content-wrapper.section-title-layout,
+        #slide12 .content-wrapper.section-title-layout {
+            align-items: center;
+            text-align: center;
+        }
+        #slide1 .subtitle {
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        #slide1 .content-wrapper.section-title-layout > p {
+            margin-left: auto;
+            margin-right: auto;
+        }
+        #slide2 .content-wrapper {
+            align-items: center;
+        }
+        #slide2 .slide-title {
+            text-align: center;
+        }
+        #slide12 .content-wrapper.section-title-layout > h3,
+        #slide12 .content-wrapper.section-title-layout > h2,
+        #slide12 .content-wrapper.section-title-layout > p {
+            margin-left: auto;
+            margin-right: auto;
+        }
+        #slide12 .content-wrapper.section-title-layout > div:last-child {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Зурагтай слайд — гарчиг + зураг голд */
+        .slide-container.slide-media .content-wrapper {
+            align-items: center;
+        }
+        .slide-container.slide-media .slide-title {
+            text-align: center;
+        }
+        .slide-container.slide-media .content-area {
+            align-items: center;
+            justify-content: center;
+        }
         
         .two-column { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; width: 100%; align-items: start; }
         .two-column.tiled { align-items: stretch; gap: 40px; }
@@ -390,10 +433,10 @@
         .calc-val { color: var(--text-primary); font-weight: 600; font-size: 22px; }
         
         /* Apple-style Custom Range Slider */
-        input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; }
+        input[type=range] { -webkit-appearance: none; appearance: none; width: 100%; background: transparent; }
         input[type=range]:focus { outline: none; }
         input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 6px; cursor: pointer; background: var(--border-color); border-radius: 3px; transition: background 0.3s ease;}
-        input[type=range]::-webkit-slider-thumb { height: 24px; width: 24px; border-radius: 50%; background: #2997ff; cursor: pointer; -webkit-appearance: none; margin-top: -9px; box-shadow: 0 0 10px rgba(41, 151, 255, 0.5); transition: transform 0.1s;}
+        input[type=range]::-webkit-slider-thumb { height: 24px; width: 24px; border-radius: 50%; background: #2997ff; cursor: pointer; -webkit-appearance: none; appearance: none; margin-top: -9px; box-shadow: 0 0 10px rgba(41, 151, 255, 0.5); transition: transform 0.1s;}
         input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.1); }
         
         .equation-text { font-family: monospace; color: var(--text-secondary); font-size: 16px; margin-top: 10px; display: block; }
@@ -457,7 +500,7 @@
     <div class="content-wrapper">
         <h2 class="slide-title">Алсын хараа: <span class="accent-text">Neo-Bank Шилжилт</span></h2>
         <div class="content-area">
-            <p style="text-align: center; margin-top: -50px; margin-bottom: 10px; font-size: 24px;">Зорилго: ЛэндМН-ийн зээл, хаалттай хэтэвчийн үндсэн шийдлүүдийг өдөр тутмын төлбөрийн үндсэн хэрэгсэл болгох.</p>
+            <p style="text-align: center; max-width: 960px; margin-top: -50px; margin-bottom: 10px; margin-left: auto; margin-right: auto; font-size: 24px;">Зорилго: ЛэндМН-ийн зээл, хаалттай хэтэвчийн үндсэн шийдлүүдийг өдөр тутмын төлбөрийн үндсэн хэрэгсэл болгох.</p>
             
             <div class="two-column tiled">
                 <div>
@@ -470,7 +513,7 @@
                     <h3>Ухаалаг утас = ПОС төхөөрөмж</h3>
                     <p>ЛэндМН апп дотор төлбөр хүлээн авах SoftPOS шийдлийг суулгаж, төхөөрөмж худалдан авахгүйгээр мерчантын сүлжээг өргөтгөх.</p>
                 </div>
-                <div style="grid-column: span 2; text-align: center;">
+                <div style="grid-column: span 2; text-align: left;">
                     <span class="badge blue">Payment Gateway</span>
                     <h3>Нэгдсэн API Гарц</h3>
                     <p>Бүх төрлийн төлбөрийн сувгуудыг (QPay, Карт, SocialPay) нэгтгэсэн API холболтыг апп дотор болон мерчантуудад нэвтрүүлэх.</p>
@@ -480,7 +523,7 @@
     </div>
 </div>
 
-<div class="slide-container left-align" id="slide3">
+<div class="slide-container" id="slide3">
     <div class="content-wrapper">
         <h2 class="slide-title">Шийдэл 1: <span class="accent-blue">Bonum CaaS (Mastercard)</span></h2>
         <div class="content-area">
@@ -623,7 +666,7 @@
     </div>
 </div>
 
-<div class="slide-container left-align" id="slide5">
+<div class="slide-container" id="slide5">
     <div class="content-wrapper">
         <h2 class="slide-title">Шийдэл 2: <span class="accent-blue">SoftPOS Интеграци</span></h2>
         <div class="content-area">
@@ -664,7 +707,7 @@
     </div>
 </div>
 
-<div class="slide-container left-align" id="slide-softpos-target">
+<div class="slide-container" id="slide-softpos-target">
     <div class="content-wrapper">
         <h2 class="slide-title">SoftPOS: <span class="accent-blue">Зорилтот Сегмент & Шинэ Өгөөж</span></h2>
         <div class="content-area">
@@ -761,7 +804,7 @@
     </div>
 </div>
 
-<div class="slide-container left-align" id="slide7">
+<div class="slide-container" id="slide7">
     <div class="content-wrapper">
         <h2 class="slide-title">Шийдэл 3: <span class="accent-blue">Payment Gateway</span></h2>
         <div class="content-area">
@@ -800,11 +843,11 @@
     </div>
 </div>
 
-<<div class="slide-container left-align" id="slide-gateway-model">
+<div class="slide-container" id="slide-gateway-model">
     <div class="content-wrapper">
         <h2 class="slide-title">Payment Gateway: <span class="accent-blue">Хос Хөдөлгүүрт Стратеги</span></h2>
         <div class="content-area">
-            <p style="text-align: center; margin-top: -30px; margin-bottom: 40px; font-size: 22px; color: var(--text-primary); max-width: 900px; margin-left: auto; margin-right: auto;">Bonum Gateway-ийг бид зүгээр нэг төлбөр дамжуулах хоолой биш, <strong style="color: #2997ff;">ЛэндМН экосистемийн хурдасгуур</strong> болгож ашиглана.</p>
+            <p style="text-align: left; margin-top: -30px; margin-bottom: 40px; font-size: 22px; color: var(--text-primary); max-width: 900px;">Bonum Gateway-ийг бид зүгээр нэг төлбөр дамжуулах хоолой биш, <strong style="color: #2997ff;">ЛэндМН экосистемийн хурдасгуур</strong> болгож ашиглана.</p>
             
             <div class="two-column tiled">
                 <div style="border-top: 4px solid #2997ff; background: var(--card-bg); box-shadow: var(--shadow);">
@@ -893,10 +936,10 @@
     </div>
 </div>
 
-<div class="slide-container" id="slide-example-1">
+<div class="slide-container slide-media" id="slide-example-gateway">
     <div class="content-wrapper">
         <h2 class="slide-title">Bonum: <span class="accent-text">Payment Gateway</span></h2>
-        <div class="content-area" style="align-items: center;">
+        <div class="content-area">
             <img src="gateway.webp" alt="Example Image" style="max-height: 600px; max-width: 100%; object-fit: contain; background: transparent;">
         </div>
     </div>
@@ -955,20 +998,20 @@
     </div>
 </div>
 
-<div class="slide-container" id="slide-example-1">
+<div class="slide-container slide-media" id="slide-example-cards">
     <div class="content-wrapper">
         <h2 class="slide-title">Bonum: <span class="accent-text">Хамтарсан картууд</span></h2>
-        <div class="content-area" style="align-items: center;">
+        <div class="content-area">
             <img src="bonumcards.png" alt="Example Image" style="max-height: 600px; max-width: 100%; object-fit: contain; background: transparent;">
         </div>
     </div>
 </div>
 
-<div class="slide-container" id="slide-image-apple">
+<div class="slide-container slide-media" id="slide-image-virtual">
     <div class="content-wrapper">
         <h2 class="slide-title">Mastercard: <span class="accent-text">Virtual Cards</span></h2>
         <div class="content-area">
-            <div style="display: flex; gap: 40px; justify-content: center; width: 100%; align-items: center;">
+            <div style="display: flex; gap: 40px; justify-content: center; width: 100%; max-width: 100%; align-items: center; flex-wrap: wrap;">
                 <img src="colorcard.png" alt="Screen 1" style="max-height: 450px; background: transparent;">
                 
                 <img src="tdbcard.png" alt="Screen 2" style="max-height: 450px; background: transparent;">
@@ -977,11 +1020,11 @@
     </div>
 </div>
 
-<div class="slide-container" id="slide-image-apple">
+<div class="slide-container slide-media" id="slide-image-golomt">
     <div class="content-wrapper">
         <h2 class="slide-title">Голомт Банк: <span class="accent-text">Credit Cards</span></h2>
         <div class="content-area">
-            <div style="display: flex; gap: 40px; justify-content: center; width: 100%; align-items: center;">
+            <div style="display: flex; gap: 40px; justify-content: center; width: 100%; max-width: 100%; align-items: center; flex-wrap: wrap;">
                 <img src="goldcredit.png" alt="Screen 1" style="max-height: 450px; background: transparent;">
                 
                 <img src="worldcredit.png" alt="Screen 2" style="max-height: 450px; background: transparent;">
@@ -996,7 +1039,7 @@
     <div class="content-wrapper">
         <h2 class="slide-title">New Idea: <span class="accent-text">Lend Anywhere</span></h2>
         <div class="content-area">
-            <p style="text-align: center; font-size: 26px; margin-top: -20px; margin-bottom: 40px; max-width: 1600px; line-height: 1.6; color: var(--text-primary);">
+            <p style="text-align: left; font-size: 26px; margin-top: -20px; margin-bottom: 40px; max-width: 1600px; line-height: 1.6; color: var(--text-primary);">
                 <strong>Universal Open-Loop BNPL:</strong> Мерчанттай гэрээ хийж цаг алдахгүй. ЛэндМН карт өөрөө хаана ч уншуулсан 15 хоногийн зайтай 2-6 хувааж төлөх боломжтой <strong>нээлттэй систем</strong> болно. Payments with no interest - just an affordable, fixed fee.
             </p>
             <div class="two-column tiled">
@@ -1025,7 +1068,7 @@
     </div>
 </div>
 
-<div class="slide-container left-align" id="slide-new-idea-2">
+<div class="slide-container" id="slide-new-idea-2">
     <div class="content-wrapper">
         <h2 class="slide-title">Lend Anywhere: <span class="accent-blue">Архитектур & Хөрвүүлэлт</span></h2>
         <div class="content-area">

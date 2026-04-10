@@ -1,0 +1,1410 @@
+<!DOCTYPE html>
+<html lang="mn" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LendMN x Bonum - Interactive Apple Style Presentation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* 0. THEME VARIABLES (Light/Dark Mode) */
+        :root {
+            --bg-color: #f5f5f7;
+            --slide-bg: #fbfbfd;
+            --text-primary: #1d1d1f;
+            --text-secondary: #86868b;
+            --text-muted: #515154;
+            --card-bg: #ffffff;
+            --panel-bg: #ffffff;
+            --border-color: #e5e5ea;
+            --grid-header: #f5f5f7;
+            --grid-row: #ffffff;
+            --dot-bg: #d2d2d7;
+            --dot-active: #1d1d1f;
+            --shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #000000;
+            --slide-bg: #000000;
+            --text-primary: #f5f5f7;
+            --text-secondary: #86868b;
+            --text-muted: #d2d2d7;
+            --card-bg: #1d1d1f;
+            --panel-bg: #111111;
+            --border-color: #333333;
+            --grid-header: #000000;
+            --grid-row: #1d1d1f;
+            --dot-bg: #333333;
+            --dot-active: #f5f5f7;
+            --shadow: 0 4px 12px rgba(0,0,0,0.5);
+        }
+
+        /* 1. THE SETUP - APPLE EVENT STYLE & SCROLL SNAPPING */
+        * { box-sizing: border-box; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-snap-type: y mandatory; 
+        }
+
+        body {
+            background-color: var(--bg-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Hide scrollbar */
+        body::-webkit-scrollbar { display: none; }
+        body { -ms-overflow-style: none; scrollbar-width: none; }
+
+        .slide-container {
+            align-items: center;
+            background-color: var(--slide-bg);
+            display: flex;
+            flex-direction: column;
+            height: 100vh; 
+            justify-content: center;
+            overflow: hidden;
+            padding: 60px;
+            position: relative;
+            width: 100%;
+            max-width: 1440px;
+            scroll-snap-align: start; 
+            border-bottom: 1px solid var(--border-color);
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .content-wrapper {
+            width: 100%;
+            max-width: 1280px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* 2. TYPOGRAPHY */
+        h1, h2, h3, h4 { color: var(--text-primary); font-weight: 600; margin: 0; letter-spacing: -0.02em; transition: color 0.3s ease;}
+        
+        .accent-text { background: linear-gradient(135deg, #2997ff 0%, #ab61d2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block; }
+        .accent-green { color: #34c759; }
+        .accent-red { color: #ff3b30; }
+        .accent-blue { color: #2997ff; }
+
+        p, li, .subtitle, .number-label { color: var(--text-secondary); font-weight: 400; transition: color 0.3s ease;}
+
+        h1 { font-size: 80px; font-weight: 700; letter-spacing: -0.04em; }
+        .slide-title { font-size: 52px; font-weight: 600; margin-bottom: 50px; text-align: center; width: 100%; letter-spacing: -0.02em; }
+        .left-align .slide-title { text-align: left; }
+        
+        h3 { font-size: 28px; margin-bottom: 12px; }
+        p, li { font-size: 20px; line-height: 1.5; }
+        .subtitle { font-size: 28px; margin: 20px auto 0; max-width: 900px; text-align: center;}
+
+        .content-area { display: flex; flex-direction: column; flex-grow: 1; justify-content: center; width: 100%; }
+
+        /* 3. LAYOUTS */
+        .title-layout { text-align: center; }
+        .section-title-layout { align-items: center; display: flex; flex-direction: column; justify-content: center; text-align: center; width: 100%; height: 100%;}
+        
+        .two-column { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; width: 100%; align-items: start; }
+        .two-column.tiled { align-items: stretch; gap: 40px; }
+        .two-column.tiled > div { background-color: var(--card-bg); border-radius: 20px; padding: 40px; text-align: left; border: 1px solid var(--border-color); transition: all 0.3s ease;}
+        .two-column.tiled h3 { margin-bottom: 20px; font-size: 24px;}
+
+        /* SLIDE 3 PITCH GRID */
+        .pitch-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 26px;
+            width: 100%;
+            align-items: stretch;
+        }
+        .pitch-grid > div {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 22px 24px;
+            box-shadow: var(--shadow);
+            min-height: 230px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .pitch-grid ul {
+            margin: 0;
+            padding-left: 22px;
+        }
+        .pitch-grid li {
+            margin-bottom: 10px;
+            color: var(--text-muted);
+            font-size: 18px;
+            line-height: 1.45;
+        }
+        .pitch-grid li:last-child {
+            margin-bottom: 0;
+        }
+        .pitch-grid li strong {
+            color: var(--text-primary);
+        }
+
+        /* HIGHLIGHTED NUMBERS */
+        .highlight-numbers-layout { align-items: center; text-align: left; }
+        .highlight-numbers-layout .number { font-size: 80px; font-weight: 700; color: var(--text-primary); line-height: 1; letter-spacing: -0.04em; margin-bottom: 10px; transition: color 0.3s ease;}
+        .highlight-numbers-layout .number-label { font-size: 22px; color: #2997ff; font-weight: 500; margin-bottom: 20px;}
+
+        /* BULLET POINTS */
+        .bullet-list ul { list-style: none; margin: 0; padding: 0; }
+        .bullet-list li { position: relative; padding-left: 45px; margin-bottom: 25px; color: var(--text-primary); font-size: 22px; }
+        .bullet-list i { position: absolute; left: 0; top: 3px; font-size: 28px; color: #2997ff; }
+        .bullet-list strong { color: var(--text-primary); font-weight: 600; display: block; margin-bottom: 5px; }
+
+        /* DATA GRID / TABLE */
+        .apple-grid { display: grid; gap: 1px; background-color: var(--border-color); border-radius: 16px; overflow: hidden; border: 1px solid var(--border-color); width: 100%; transition: all 0.3s ease;}
+        .apple-grid-row { display: grid; grid-template-columns: 1fr 2fr; background-color: var(--grid-row); transition: background-color 0.3s ease;}
+        .apple-grid-header { background-color: var(--grid-header); font-weight: 600; color: var(--text-secondary); }
+        .apple-grid-cell { padding: 25px 30px; color: var(--text-primary); font-size: 18px; line-height: 1.5; align-items: center; display: flex; transition: color 0.3s ease;}
+        .apple-grid-cell strong { margin-left: 10px; color: #2997ff; font-size: 22px;}
+        .apple-grid-cell.total-row { flex-direction: column; align-items: flex-start; justify-content: center;}
+
+        /* PROS & CONS SPLIT */
+        .split-card { background: var(--card-bg); border-radius: 20px; padding: 40px; border: 1px solid var(--border-color); height: 100%; transition: all 0.3s ease;}
+        .split-card.pro { border-top: 4px solid #34c759; }
+        .split-card.con { border-top: 4px solid #ff3b30; }
+        .split-card ul { padding-left: 20px; }
+        .split-card li { font-size: 18px; margin-bottom: 20px; color: var(--text-muted);}
+        .split-card li strong { color: var(--text-primary); display: inline;}
+
+        /* BADGES */
+        .badge { display: inline-block; padding: 5px 12px; border-radius: 8px; font-size: 14px; font-weight: 600; margin-bottom: 15px;}
+        .badge.red { background: rgba(255, 59, 48, 0.15); color: #ff3b30; }
+        .badge.green { background: rgba(52, 199, 89, 0.15); color: #34c759; }
+        .badge.blue { background: rgba(41, 151, 255, 0.15); color: #2997ff; }
+        .badge.orange { background: rgba(255, 149, 0, 0.15); color: #ff9500; }
+
+        /* Gateway санхүү — бусад слайдтай ойролцоо зай, хэт нягт биш */
+        #slide-gateway-financials.slide-container {
+            padding: clamp(44px, 6vh, 60px) clamp(48px, 5vw, 60px);
+        }
+        #slide-gateway-financials .content-wrapper {
+            align-items: stretch;
+            max-width: 1280px;
+        }
+        #slide-gateway-financials .slide-title {
+            font-size: clamp(34px, 3.8vw, 48px);
+            margin-bottom: clamp(22px, 3vh, 36px);
+            line-height: 1.15;
+        }
+        #slide-gateway-financials .content-area {
+            justify-content: center;
+            gap: clamp(20px, 2.5vh, 28px);
+            min-height: 0;
+        }
+        #slide-gateway-financials .calculator-panel {
+            padding: 18px 28px !important;
+            margin-bottom: 4px !important;
+            gap: 28px 36px !important;
+            grid-template-columns: 1fr 1fr;
+        }
+        #slide-gateway-financials .calc-label {
+            font-size: 17px;
+            margin-bottom: 12px;
+        }
+        #slide-gateway-financials .calc-val {
+            font-size: 20px;
+        }
+        #slide-gateway-financials .gateway-fin-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+            gap: clamp(28px, 3vw, 40px);
+            align-items: stretch;
+            width: 100%;
+        }
+        #slide-gateway-financials .gateway-fin-metrics h3 {
+            font-size: 22px;
+            margin: 0 0 18px 0;
+            font-weight: 600;
+        }
+        #slide-gateway-financials .gateway-fin-stat {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 18px 22px;
+            margin-bottom: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+        }
+        #slide-gateway-financials .gateway-fin-stat:last-child {
+            margin-bottom: 0;
+        }
+        #slide-gateway-financials .gateway-fin-stat .label {
+            margin: 0;
+            color: var(--text-secondary);
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            line-height: 1.35;
+        }
+        #slide-gateway-financials .gateway-fin-stat .value-bonum {
+            font-size: 24px;
+            color: #ff3b30;
+            font-weight: 700;
+            display: block;
+            margin-top: 6px;
+        }
+        #slide-gateway-financials .gateway-fin-stat .value-profit {
+            font-size: 26px;
+            color: #34c759;
+            font-weight: 700;
+            display: block;
+            margin-top: 6px;
+        }
+        #slide-gateway-financials .gateway-fin-stat .icon-wrap {
+            flex-shrink: 0;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 17px;
+        }
+        #slide-gateway-financials .gateway-fin-model {
+            background: var(--panel-bg);
+            padding: 26px 28px 30px;
+            border-radius: 18px;
+            border: 1px solid var(--border-color);
+            border-top: 4px solid #ab61d2;
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+        }
+        #slide-gateway-financials .gateway-fin-model .badge {
+            margin-bottom: 14px;
+            font-size: 14px;
+            padding: 5px 12px;
+        }
+        #slide-gateway-financials .gateway-fin-model .lead {
+            color: var(--text-primary);
+            font-size: 19px;
+            font-weight: 600;
+            line-height: 1.4;
+            margin: 0 0 12px 0;
+        }
+        #slide-gateway-financials .gateway-fin-model .sub {
+            color: var(--text-secondary);
+            font-size: 17px;
+            line-height: 1.55;
+            margin: 0 0 16px 0;
+        }
+        #slide-gateway-financials .gateway-fin-model ul {
+            color: var(--text-muted);
+            font-size: 17px;
+            line-height: 1.5;
+            padding-left: 22px;
+            margin: 0;
+        }
+        #slide-gateway-financials .gateway-fin-model li {
+            margin-bottom: 12px;
+        }
+        #slide-gateway-financials .gateway-fin-model li:last-child {
+            margin-bottom: 0;
+        }
+        @media (max-width: 900px) {
+            #slide-gateway-financials .calculator-panel {
+                grid-template-columns: 1fr !important;
+            }
+            #slide-gateway-financials .gateway-fin-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* RISK MATRIX TABLE */
+        .risk-matrix-card {
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            border-left: 4px solid #2997ff;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            width: 100%;
+        }
+        .risk-matrix-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .risk-matrix-table thead th {
+            background: var(--grid-header);
+            color: var(--text-secondary);
+            text-align: left;
+            font-size: 16px;
+            font-weight: 600;
+            letter-spacing: 0;
+            padding: 15px 22px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .risk-matrix-table td {
+            padding: 17px 22px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-muted);
+            font-size: 18px;
+            line-height: 1.45;
+            vertical-align: middle;
+        }
+        .risk-matrix-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+        .risk-matrix-table td:first-child {
+            font-weight: 600;
+            color: var(--text-primary);
+            width: 33%;
+        }
+        .risk-matrix-table td:nth-child(2) {
+            width: 13%;
+        }
+        .risk-matrix-table td:nth-child(3) {
+            color: var(--text-muted);
+            width: 54%;
+        }
+        .risk-matrix-table .badge {
+            margin: 0;
+            padding: 4px 10px;
+            font-size: 12px;
+            border-radius: 7px;
+            letter-spacing: 0.01em;
+        }
+
+        /* INTERACTIVE CALCULATOR STYLES */
+        .calculator-panel { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 30px; margin-bottom: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; width: 100%; transition: all 0.3s ease; box-shadow: var(--shadow);}
+        .calc-group { display: flex; flex-direction: column; }
+        .calc-label { display: flex; justify-content: space-between; color: var(--text-secondary); font-size: 18px; margin-bottom: 15px; }
+        .calc-val { color: var(--text-primary); font-weight: 600; font-size: 22px; }
+        
+        /* Apple-style Custom Range Slider */
+        input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; }
+        input[type=range]:focus { outline: none; }
+        input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 6px; cursor: pointer; background: var(--border-color); border-radius: 3px; transition: background 0.3s ease;}
+        input[type=range]::-webkit-slider-thumb { height: 24px; width: 24px; border-radius: 50%; background: #2997ff; cursor: pointer; -webkit-appearance: none; margin-top: -9px; box-shadow: 0 0 10px rgba(41, 151, 255, 0.5); transition: transform 0.1s;}
+        input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.1); }
+        
+        .equation-text { font-family: monospace; color: var(--text-secondary); font-size: 16px; margin-top: 10px; display: block; }
+        .total-highlight { font-size: 36px !important; color: #ff3b30 !important; font-weight: 700 !important; margin-left: 0 !important;}
+
+        /* SLIDE INDICATORS */
+        .slide-nav { position: fixed; right: 30px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 12px; z-index: 100; }
+        .nav-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--dot-bg); cursor: pointer; transition: 0.3s ease; }
+        .nav-dot.active { background: var(--dot-active); transform: scale(1.3); }
+
+        /* THEME TOGGLE BUTTON */
+        .theme-toggle-btn {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            z-index: 1000;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+        }
+        .theme-toggle-btn:hover {
+            transform: scale(1.1);
+        }
+
+        /* CUSTOM ANIMATION */
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-15px); }
+            60% { transform: translateY(-7px); }
+        }
+    </style>
+</head>
+<body>
+
+<button class="theme-toggle-btn" id="themeToggleBtn" title="Toggle Light/Dark Mode">
+    <i class="fa-solid fa-moon"></i>
+</button>
+
+<div class="slide-nav" id="slideNav"></div>
+
+<div class="slide-container" id="slide1">
+    <div class="content-wrapper section-title-layout">
+        <h1>LendMN <span style="color:var(--text-secondary); font-weight:300;">x</span> Bonum</h1>
+        <p class="subtitle accent-text" style="font-size: 32px; margin-top: 30px;">Стратегийн Түншлэл</p>
+        <p style="margin-top: 40px; max-width: 800px; font-size: 22px;">Bonum CaaS (Mastercard), SoftPOS болон Payment Gateway нэвтрүүлэлтийн ТЭЗҮ ба Эрсдэлийн үнэлгээ.</p>
+        <p style="margin-top: 80px; color: var(--text-secondary); font-size: 16px; animation: bounce 2s infinite;"><i class="fa-solid fa-arrow-down" style="margin-right: 10px;"></i>Доош гүйлгэх / Сум дарах</p>
+    </div>
+</div>
+
+<div class="slide-container" id="slide2">
+    <div class="content-wrapper">
+        <h2 class="slide-title">Алсын хараа: <span class="accent-text">Neo-Bank Шилжилт</span></h2>
+        <div class="content-area">
+            <p style="text-align: center; margin-top: -50px; margin-bottom: 10px; font-size: 24px;">Зорилго: ЛэндМН-ийн зээл, хаалттай хэтэвчийн үндсэн шийдлүүдийг өдөр тутмын төлбөрийн үндсэн хэрэгсэл болгох.</p>
+            
+            <div class="two-column tiled">
+                <div>
+                    <span class="badge blue">CaaS (Card as a Service)</span>
+                    <h3>Mastercard & Apple Pay, Google Pay</h3>
+                    <p>ЛэндМН-ийн хэрэглэгчдэд зориулсан Apple Pay болон Google Pay дэмждэг виртуал болон биет Mastercard гаргах.</p>
+                </div>
+                <div>
+                    <span class="badge blue">SoftPOS Интеграци</span>
+                    <h3>Ухаалаг утас = ПОС төхөөрөмж</h3>
+                    <p>ЛэндМН апп дотор төлбөр хүлээн авах SoftPOS шийдлийг суулгаж, төхөөрөмж худалдан авахгүйгээр мерчантын сүлжээг өргөтгөх.</p>
+                </div>
+                <div style="grid-column: span 2; text-align: center;">
+                    <span class="badge blue">Payment Gateway</span>
+                    <h3>Нэгдсэн API Гарц</h3>
+                    <p>Бүх төрлийн төлбөрийн сувгуудыг (QPay, Карт, SocialPay) нэгтгэсэн API холболтыг апп дотор болон мерчантуудад нэвтрүүлэх.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="slide-container left-align" id="slide3">
+    <div class="content-wrapper">
+        <h2 class="slide-title">Шийдэл 1: <span class="accent-blue">Bonum CaaS (Mastercard)</span></h2>
+        <div class="content-area">
+            <div class="pitch-grid">
+                <div style="border-top: 4px solid #2997ff;">
+                    <span class="badge blue"><i class="fa-solid fa-gears"></i> Ажиллах зарчим</span>
+                    <ul>
+                        <li>ЛэндМН системээс Bonum API-аар дамжуулан виртуал/биет карт үүсгэнэ.</li>
+                        <li><strong>Apple Pay</strong> болон <strong>Google Pay</strong>-д шууд холбогдож ажиллана.</li>
+                        <li>Картын лимит, хүү, шимтгэлийн нөхцөлийг ЛэндМН 100% өөрөө удирдана.</li>
+                    </ul>
+                </div>
+                <div style="border-top: 4px solid #34c759;">
+                    <span class="badge green"><i class="fa-solid fa-diamond"></i> Үнэ цэн (Value Proposition)</span>
+                    <ul>
+                        <li><strong>Дэлхийн хязгааргүй гарц:</strong> Хэрэглэгч дэлхийн 90 сая цэгт ЛэндМН эрхээрээ гүйлгээ хийнэ.</li>
+                        <li><strong>Брэндийн нэр хүнд:</strong> Apple Pay зэрэг хамгийн эрэлттэй технологийг хэрэглэгчдэдээ шууд санал болгох бэлэн дэд бүтэц.</li>
+                    </ul>
+                </div>
+                <div style="border-top: 4px solid #ff3b30;">
+                    <span class="badge red"><i class="fa-solid fa-scale-balanced"></i> Давуу болон Сул тал</span>
+                    <ul>
+                        <li><strong>Давуу тал:</strong> Өөрсдөө 1-2 жил, 1-2 сая доллар зарцуулан хөгжүүлэхийн оронд шууд бэлэн бүтээгдэхүүнтэй зах зээлд гарна.</li>
+                        <li><strong>Сул тал (Эрсдэл):</strong> Интерченж орлого (~1%) бүхэлдээ Bonum-д үлдэнэ. Cardzone системийн найдвартай байдлаас 100% хамааралтай болно.</li>
+                    </ul>
+                </div>
+                <div style="border-top: 4px solid #1d1d1f;">
+                    <span class="badge" style="background: var(--border-color); color: var(--text-primary);"><i class="fa-solid fa-wallet"></i> Орлого & Зардал</span>
+                    <ul>
+                        <li><strong>Зардал:</strong> Суулгалт 55M ₮. Жилийн хураамж 33,000₮ (карт тус бүр). Гүйлгээний шимтгэл 150₮ (амжилттай гүйлгээ бүрд).</li>
+                        <li><strong>Орлого:</strong> Картын гүйлгээнээс шууд ашиг гарахгүй. Зөвхөн хэрэглэгчийн хураамж эсвэл зээлийн хүү (BNPL)-гээр нөхнө. Маркетинг болон картын хэвлэлт далд зардал болно.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="slide-container" id="slide4">
+    <div class="content-wrapper">
+        <h2 class="slide-title">CaaS Зардал & <span class="accent-red">Далд Эрсдэлүүд</span></h2>
+        <div class="content-area">
+            <div class="two-column highlight-numbers-layout">
+                <div>
+                    <h3 style="margin-bottom: 30px;">Ил зардлууд</h3>
+                    <div class="number" style="font-size: 56px;">55<span style="font-size: 30px;">M ₮</span></div>
+                    <div class="number-label">Суулгалтын хөлс (Нэг удаа)</div>
+                    
+                    <div class="number" style="font-size: 56px; margin-top: 20px;">33,000<span style="font-size: 30px;">₮</span></div>
+                    <div class="number-label">Жилийн хураамж (Идэвхтэй карт тутамд)</div>
+
+                    <div class="number" style="font-size: 56px; margin-top: 20px; color: #ff3b30;">150<span style="font-size: 30px;">₮</span></div>
+                    <div class="number-label" style="color: #ff3b30;">Гүйлгээний хураамж (Амжилттай гүйлгээ бүрд)</div>
+                </div>
+                <div style="background: rgba(255, 59, 48, 0.05); border: 1px solid rgba(255, 59, 48, 0.3); padding: 40px; border-radius: 20px;">
+                    <h3 style="color: #ff3b30; margin-bottom: 20px;">Тооцох ёстой далд зардлууд</h3>
+                    <ul style="color: var(--text-primary); font-size: 18px; line-height: 1.6; padding-left: 20px;">
+                        <li style="margin-bottom: 15px;"><strong>Бичил гүйлгээний алдагдал:</strong> 3000₮-ийн кофе авахад 150₮ хураамж нь 5%-ийн зардал болно. Зээлийн хүүгийн орлогоос давж алдагдал үүсгэнэ.</li>
+                        <li style="margin-bottom: 15px;"><strong>Маркетингийн зардал:</strong> Гэрээнд тусгагдах "Marketing Commitment" төсвийг урьдчилан таамаглах боломжгүй, 25-30₮ сая.</li>
+                        <li style="margin-bottom: 15px;"><strong>Биет картын зардал:</strong> Хэвлэлт (~6,000₮) болон хүргэлтийн зардлыг ЛэндМН хариуцна.</li>
+                        <li><strong>Fraud & Chargeback:</strong> Луйврын гүйлгээний алдагдлыг хэн хариуцах нь тодорхойгүй.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="slide-container" id="slide8">
+    <div class="content-wrapper">
+        <h2 class="slide-title" style="margin-bottom: 30px;">LendMN Credit Card: <span class="accent-text">Тооцоолуур</span></h2>
+        <div class="content-area">
+            
+            <div class="calculator-panel" style="padding: 20px 30px; margin-bottom: 20px;">
+                <div class="calc-group">
+                    <div class="calc-label">
+                        <span>Идэвхтэй картын тоо:</span>
+                        <span class="calc-val" id="valCards">20,000 карт</span>
+                    </div>
+                    <input type="range" id="inputCards" min="1000" max="100000" step="1000" value="20000">
+                </div>
+                <div class="calc-group">
+                    <div class="calc-label">
+                        <span>Өдрийн дундаж гүйлгээ (1 карт):</span>
+                        <span class="calc-val" id="valTxns">1 гүйлгээ / өдөр</span>
+                    </div>
+                    <input type="range" id="inputTxns" min="0.1" max="5.0" step="0.1" value="1.0">
+                </div>
+            </div>
+
+            <div class="apple-grid">
+                <div class="apple-grid-row apple-grid-header" style="grid-template-columns: 1fr 1.5fr 1fr;">
+                    <div class="apple-grid-cell" style="padding: 15px 25px;">Зардлын Төрөл</div>
+                    <div class="apple-grid-cell" style="padding: 15px 25px;">Томьёо</div>
+                    <div class="apple-grid-cell" style="padding: 15px 25px; justify-content: flex-end;">Жилийн Тооцоолол</div>
+                </div>
+                
+                <div class="apple-grid-row" style="grid-template-columns: 1fr 1.5fr 1fr;">
+                    <div class="apple-grid-cell" style="padding: 15px 25px; align-items: center;">
+                        <span style="white-space: nowrap;">Картын жилийн хураамж</span>
+                    </div>
+                    <div class="apple-grid-cell" style="padding: 15px 25px; align-items: center;">
+                        <span class="equation-text" style="white-space: nowrap; margin: 0;">33,000 ₮ × Картын тоо</span>
+                    </div>
+                    <div class="apple-grid-cell" style="padding: 15px 25px; justify-content: flex-end;">
+                        <strong id="calcCardCost" style="font-size: 24px; margin-right: 5px;">660,000,000</strong> ₮
+                    </div>
+                </div>
+                
+                <div class="apple-grid-row" style="grid-template-columns: 1fr 1.5fr 1fr;">
+                    <div class="apple-grid-cell" style="padding: 15px 25px; align-items: center;">
+                        <span style="white-space: nowrap;">Гүйлгээний шимтгэл (150₮)</span>
+                    </div>
+                    <div class="apple-grid-cell" style="padding: 15px 25px; align-items: center;">
+                        <span class="equation-text" style="white-space: nowrap; margin: 0;">150 ₮ × Гүйлгээ × 365 өдөр × Картын тоо</span>
+                    </div>
+                    <div class="apple-grid-cell" style="padding: 15px 25px; justify-content: flex-end;">
+                        <strong id="calcTxnCost" style="font-size: 24px; margin-right: 5px;">1,095,000,000</strong> ₮
+                    </div>
+                </div>
+                
+                <div class="apple-grid-row" style="grid-template-columns: 2.5fr 1fr; background-color: rgba(255, 59, 48, 0.05);">
+                    <div class="apple-grid-cell total-row" style="padding: 15px 25px; color: #ff3b30; font-weight: bold; font-size: 20px; flex-direction: row; justify-content: flex-start; align-items: center;">
+                        Нийт тогтмол зардал (Жилээр):
+                    </div>
+                    <div class="apple-grid-cell" style="padding: 15px 25px; justify-content: flex-end;">
+                        <strong class="total-highlight" id="calcTotalCost" style="font-size: 32px !important; margin: 0;">1,755,000,000 ₮</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 20px; background: var(--card-bg); border: 1px solid var(--border-color); padding: 15px 25px; border-radius: 16px; border-left: 4px solid #34c759; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--shadow);">
+                <p style="color: var(--text-primary); font-size: 16px; margin: 0; flex: 1;">
+                    <strong>Орлогоор нөхөх стратеги:</strong> Хэрэглэгчээс картын хураамж 40,000₮-50,000₮ авч, "Сард 5+ гүйлгээ хийвэл хураамжгүй, үгүй бол 1000₮" гэх нөхцөл тавьж зээлийн хүү рүү хөрвүүлэх.
+                </p>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<div class="slide-container left-align" id="slide5">
+    <div class="content-wrapper">
+        <h2 class="slide-title">Шийдэл 2: <span class="accent-blue">SoftPOS Интеграци</span></h2>
+        <div class="content-area">
+            <div class="pitch-grid">
+                <div style="border-top: 4px solid #2997ff;">
+                    <span class="badge blue"><i class="fa-solid fa-gears"></i> Ажиллах зарчим & Интеграци</span>
+                    <p style="font-size: 15px; color: var(--text-secondary); margin-bottom: 10px;">ЛэндМН мерчант апп-д Bonum SoftPOS модулийг суулгана. (Утас=ПОС)</p>
+                    <ul style="list-style: none; padding-left: 0; font-size: 14px;">
+                        <li><i class="fa-solid fa-check" style="color:#2997ff; margin-right:8px;"></i><strong>Гэрээ байгуулах:</strong> Хамтран ажиллах, Нууц хадгалах.</li>
+                        <li><i class="fa-solid fa-check" style="color:#2997ff; margin-right:8px;"></i><strong>Бүтээгдэхүүний холболт:</strong> Bonum-аас SDK авах, Апп дээр холболт хийх, Мерчант үүсгэх мэдээлэл солилцох.</li>
+                        <li><i class="fa-solid fa-check" style="color:#2997ff; margin-right:8px;"></i><strong>Тест хийх:</strong> UAT болон Prod орчны тест.</li>
+                    </ul>
+                </div>
+                <div style="border-top: 4px solid #34c759;">
+                    <span class="badge green"><i class="fa-solid fa-diamond"></i> Үнэ цэн (Value Proposition)</span>
+                    <ul>
+                        <li><strong>Zero Hardware Cost:</strong> Уламжлалт ПОС төхөөрөмж худалдан авах, түгээх, засварлах нүсэр зардлыг 0 болгоно.</li>
+                        <li><strong>Мерчантын хурдацтай тэлэлт:</strong> Апп татсан ямар ч бизнес шууд төлбөр авдаг болох нь том хөшүүрэг.</li>
+                        <li><strong>Дата өгөгдөл:</strong> Мерчантын орлого ЛэндМН дээр төвлөрч, зээл олгох бааз бүрдэнэ.</li>
+                    </ul>
+                </div>
+                <div style="border-top: 4px solid #ff3b30;">
+                    <span class="badge red"><i class="fa-solid fa-scale-balanced"></i> Давуу болон Сул тал</span>
+                    <ul>
+                        <li><strong>Давуу тал:</strong> Хэрэглэгчийн гар утсанд л тулгуурлах тул өргөтгөхөд хязгааргүй (Scalability).</li>
+                        <li><strong>Сул тал:</strong> Гар утасны NFC мэдрэгчээс хамаарч уламжлалт ПОС-оос удаан байж болзошгүй. iOS систем дээрх Apple-ийн хатуу хязгаарлалтуудтай тулгарах эрсдэл бий.</li>
+                    </ul>
+                </div>
+                <div style="border-top: 4px solid #1d1d1f;">
+                    <span class="badge" style="background: var(--border-color); color: var(--text-primary);"><i class="fa-solid fa-wallet"></i> Орлого & Зардал (Шинэ)</span>
+                    <ul>
+                        <li><strong>Зардал:</strong> SoftPOS төхөөрөмжийн сарын төлбөр: <strong>5,000 ₮</strong> (Утас/Эрх бүрд). Нэмэлт дотоод хөгжүүлэлтийн цаг.</li>
+                        <li><strong>Орлого:</strong> Bonum гүйлгээний шимтгэл <strong>0.6%</strong> авна. ЛэндМН мерчантаас зах зээлийн жишгээр (1.0% - 1.5%) авч, дундаас нь зөрүү (margin) унагаж ашиг олох моделтой ажиллана.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="slide-container left-align" id="slide-softpos-target">
+    <div class="content-wrapper">
+        <h2 class="slide-title">SoftPOS: <span class="accent-blue">Зорилтот Сегмент & Шинэ Өгөөж</span></h2>
+        <div class="content-area">
+            <div class="two-column" style="gap: 50px; align-items: stretch;">
+                
+                <div style="display: flex; flex-direction: column; gap: 20px;">
+                    <h3 style="margin-bottom: 10px;">Хэн ашиглах вэ? (Бичил мерчантууд)</h3>
+                    
+                    <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 20px; display: flex; gap: 20px; align-items: flex-start; transition: all 0.3s ease;">
+                        <div style="background: rgba(41, 151, 255, 0.15); color: #2997ff; min-width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px;">
+                            <i class="fa-solid fa-taxi"></i>
+                        </div>
+                        <div>
+                            <h4 style="font-size: 18px; margin: 0 0 8px 0; color: var(--text-primary);">Хөдөлгөөнт бизнес (Такси, Хүргэлт)</h4>
+                            <p style="margin: 0; font-size: 15px; color: var(--text-secondary); line-height: 1.5;">Ямар ч нэмэлт төхөөрөмж хэрэггүй. Машиндаа эсвэл үйлчлүүлэгчийн үүдэнд зогсоод л гар утсандаа карт уншуулж төлбөрөө авна.</p>
+                        </div>
+                    </div>
+
+                    <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 20px; display: flex; gap: 20px; align-items: flex-start; transition: all 0.3s ease;">
+                        <div style="background: rgba(171, 97, 210, 0.15); color: #ab61d2; min-width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px;">
+                            <i class="fa-solid fa-scissors"></i>
+                        </div>
+                        <div>
+                            <h4 style="font-size: 18px; margin: 0 0 8px 0; color: var(--text-primary);">Үйлчилгээ (Үсчин, Гоо сайхан, Freelance)</h4>
+                            <p style="margin: 0; font-size: 15px; color: var(--text-secondary); line-height: 1.5;">Уламжлалт ПОС-ын сарын түрээс, хураамж төлөхөөс зайлсхийдэг хувиараа бизнес эрхлэгчдэд хамгийн хямд бөгөөд хурдан шийдэл болно.</p>
+                        </div>
+                    </div>
+
+                    <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 20px; display: flex; gap: 20px; align-items: flex-start; transition: all 0.3s ease;">
+                        <div style="background: rgba(52, 199, 89, 0.15); color: #34c759; min-width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px;">
+                            <i class="fa-solid fa-shop"></i>
+                        </div>
+                        <div>
+                            <h4 style="font-size: 18px; margin: 0 0 8px 0; color: var(--text-primary);">Бичил худалдаа (Лангуу, ТҮЦ, Өдөрлөг)</h4>
+                            <p style="margin: 0; font-size: 15px; color: var(--text-secondary); line-height: 1.5;">Зай талбай шаардахгүй. Мөн олон худалдагчтай лангуунд хүн бүр өөрийн утсаар нэгэн зэрэг төлбөр авах боломж бүрдэнэ.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="background: var(--card-bg); padding: 40px; border-radius: 20px; border-top: 4px solid #34c759; border-left: 1px solid var(--border-color); border-right: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); box-shadow: var(--shadow); display: flex; flex-direction: column; justify-content: center;">
+                    <span class="badge green" style="align-self: flex-start;"><i class="fa-solid fa-gem"></i> ЛэндМН-ийн Нууц Хөзөр</span>
+                    <h3 style="color: var(--text-primary); margin-top: 15px; margin-bottom: 25px; font-size: 26px;">Датанд суурилсан шинэ орлого</h3>
+                    
+                    <ul style="list-style: none; padding-left: 0; margin: 0;">
+                        <li style="margin-bottom: 25px; display: flex; gap: 15px;">
+                            <i class="fa-solid fa-database" style="color: #2997ff; font-size: 22px; margin-top: 3px;"></i>
+                            <div>
+                                <strong style="color: var(--text-primary); font-size: 18px; display: block; margin-bottom: 5px;">Далд эдийн засгийн Дата</strong>
+                                <span style="color: var(--text-secondary); font-size: 16px; line-height: 1.5; display: block;">Урьд нь зөвхөн бэлнээр эсвэл дансаар шилждэг байсан бичил бизнесүүдийн бодит орлогын түүх (Cashflow) ЛэндМН системд баталгаажиж үлдэнэ.</span>
+                            </div>
+                        </li>
+                        <li style="margin-bottom: 25px; display: flex; gap: 15px;">
+                            <i class="fa-solid fa-hand-holding-dollar" style="color: #34c759; font-size: 22px; margin-top: 3px;"></i>
+                            <div>
+                                <strong style="color: var(--text-primary); font-size: 18px; display: block; margin-bottom: 5px;">Бичил бизнесийн зээл (SME Loan)</strong>
+                                <span style="color: var(--text-secondary); font-size: 16px; line-height: 1.5; display: block;">Цугларсан орлогын датанд үндэслэн лангууны түрээслэгч эсвэл таксины жолоочид <strong>Барьцаагүй, богино хугацаат бизнесийн зээл</strong> санал болгох асар том зах зээл (Merchant Cash Advance) нээгдэнэ. Энэ нь шимтгэлээс илүү ашигтай модел юм.</span>
+                            </div>
+                        </li>
+                        <li style="display: flex; gap: 15px;">
+                            <i class="fa-solid fa-rotate" style="color: #ab61d2; font-size: 22px; margin-top: 3px;"></i>
+                            <div>
+                                <strong style="color: var(--text-primary); font-size: 18px; display: block; margin-bottom: 5px;">Экосистемийн эргэлт (Lock-in)</strong>
+                                <span style="color: var(--text-secondary); font-size: 16px; line-height: 1.5; display: block;">Мерчантууд орлогоо ЛэндМН хэтэвчиндээ хүлээж авах бөгөөд тэрхүү мөнгөөрөө бараа татах, шилжүүлэх зэрэгт ашигласнаар апп доторх B2B эргэлт нэмэгдэнэ.</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="slide-container" id="slide6">
+    <div class="content-wrapper">
+        <h2 class="slide-title">SoftPOS: <span class="accent-text">Орлогын Модель</span></h2>
+        <div class="content-area">
+            <div class="two-column tiled">
+                <div>
+                    <span class="badge red">Зардал</span>
+                    <h3 style="margin-top: 10px;">Хөгжүүлэлт & Лиценз</h3>
+                    <p>Дотоод хүний нөөцийн хөгжүүлэлтийн зардал.
+                    </p>
+                    <p style="color: #ff3b30; font-weight: 500; margin-top: 15px;">1 Soft POS төхөөрөмжийн сарын төлбөр: 5,000₮ (Bonum-д төлөх) x 1000 мерчант = 5,000,000₮/сар.</p>
+                </div>
+                <div>
+                    <span class="badge green">Орлого (Revenue Stream)</span>
+                    <h3 style="margin-top: 10px;">Гүйлгээний шимтгэл</h3>
+                    <p>Мерчантаас гүйлгээний шимтгэл авна (Зах зээлийн дундаж 1% - 1.5%).</p>
+                    <p style="color: #34c759; font-weight: 500; margin-top: 15px;">Стратеги: Энэхүү шимтгэлээс Bonum хэдэн хувийг (Acquiring fee) суутгахыг гэрээгээр хатуу тохирох хэрэгтэй.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="slide-container left-align" id="slide7">
+    <div class="content-wrapper">
+        <h2 class="slide-title">Шийдэл 3: <span class="accent-blue">Payment Gateway</span></h2>
+        <div class="content-area">
+            <div class="pitch-grid">
+                <div style="border-top: 4px solid #2997ff;">
+                    <span class="badge blue"><i class="fa-solid fa-gears"></i> Ажиллах зарчим</span>
+                    <ul>
+                        <li>ЛэндМН апп доторх болон мерчантуудын цахим төлбөр тооцоонд нэгдсэн Bonum Gateway ашиглах.</li>
+                        <li>Ганц API холболтоор QPay, Дотоодын карт, SocialPay зэргийг нэгтгэнэ.</li>
+                        <li>Картын мэдээллийг токенжуулж (Tokenization) хадгална.</li>
+                    </ul>
+                </div>
+                <div style="border-top: 4px solid #34c759;">
+                    <span class="badge green"><i class="fa-solid fa-diamond"></i> Үнэ цэн (Value Proposition)</span>
+                    <ul>
+                        <li><strong>Хөгжүүлэлтийн хэмнэлт:</strong> Суваг бүрийг салангид холбох дотоод ИТ багийн цагийг бүрэн хэмнэнэ.</li>
+                        <li><strong>Тогтмол төлбөр:</strong> Токенжуулалт дээр суурилан сар бүр автоматаар төлбөр татах (Subscription) үйлчилгээг шинээр нэвтрүүлэх боломжтой болно.</li>
+                    </ul>
+                </div>
+                <div style="border-top: 4px solid #ff3b30;">
+                    <span class="badge red"><i class="fa-solid fa-scale-balanced"></i> Давуу болон Сул тал</span>
+                    <ul>
+                        <li><strong>Давуу тал:</strong> Цахим худалдааны (E-commerce) мерчантуудад ЛэндМН төлбөрийн цогц шийдлийг шууд санал болгох боломж бүрдэнэ.</li>
+                        <li><strong>Сул тал:</strong> Bonum дундын зуучлагч тул банктай шууд гэрээ хийх (0.8%) үеийнх шиг шимтгэлийн уян хатан нөхцөл олгох боломж муу.</li>
+                    </ul>
+                </div>
+                <div style="border-top: 4px solid #1d1d1f;">
+                    <span class="badge" style="background: var(--border-color); color: var(--text-primary);"><i class="fa-solid fa-wallet"></i> Орлого & Зардал</span>
+                    <ul>
+                        <li><strong>Зардал:</strong> QPay болон Дотоод картын гүйлгээнд <strong>1% шимтгэл</strong> (Bonum-д төлнө).</li>
+                        <li><strong>Орлого:</strong> Энэхүү 1% нь зах зээлийн жишиг тул үүн дээр нэмж шимтгэл тавих боломжгүй (цэвэр ашиггүй). Гол "орлого/өгөөж" нь системийн бэлэн байдал ба хэрэглэгчийн тасралтгүй туршлага юм.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<<div class="slide-container left-align" id="slide-gateway-model">
+    <div class="content-wrapper">
+        <h2 class="slide-title">Payment Gateway: <span class="accent-blue">Хос Хөдөлгүүрт Стратеги</span></h2>
+        <div class="content-area">
+            <p style="text-align: center; margin-top: -30px; margin-bottom: 40px; font-size: 22px; color: var(--text-primary); max-width: 900px; margin-left: auto; margin-right: auto;">Bonum Gateway-ийг бид зүгээр нэг төлбөр дамжуулах хоолой биш, <strong style="color: #2997ff;">ЛэндМН экосистемийн хурдасгуур</strong> болгож ашиглана.</p>
+            
+            <div class="two-column tiled">
+                <div style="border-top: 4px solid #2997ff; background: var(--card-bg); box-shadow: var(--shadow);">
+                    <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
+                        <div style="background: rgba(41, 151, 255, 0.15); color: #2997ff; width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px;">
+                            <i class="fa-solid fa-bolt"></i>
+                        </div>
+                        <h3 style="margin: 0; font-size: 24px;">Zero-Friction UX (Дотоод)</h3>
+                    </div>
+                    <p style="color: var(--text-primary); font-weight: 500; font-size: 18px; margin-bottom: 15px;">Хэрэглэгч зээлээ төлөх, хэтэвчээ цэнэглэх үед гацах, апп дамжих үйлдлийг 0 болгоно.</p>
+                    <ul style="color: var(--text-muted); font-size: 16px; padding-left: 20px; line-height: 1.6;">
+                        <li style="margin-bottom: 10px;"><strong>Card-on-File:</strong> Картын мэдээллийг нэг л удаа холбож (Tokenization), дараагийн гүйлгээ 1 товшилтоор хийгдэнэ.</li>
+                        <li><strong>Auto-Debit (Subscription):</strong> Зээлийн эргэн төлөлтийг хэрэглэгчийн зөвшөөрөлтэйгөөр сар бүр цагт нь автоматаар татаж, хугацаа хэтрэлтийг эрс бууруулна.</li>
+                    </ul>
+                </div>
+                
+                <div style="border-top: 4px solid #ab61d2; background: var(--card-bg); box-shadow: var(--shadow);">
+                    <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
+                        <div style="background: rgba(171, 97, 210, 0.15); color: #ab61d2; width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px;">
+                            <i class="fa-solid fa-link"></i>
+                        </div>
+                        <h3 style="margin: 0; font-size: 24px;">Social Commerce (Мерчант)</h3>
+                    </div>
+                    <p style="color: var(--text-primary); font-weight: 500; font-size: 18px; margin-bottom: 15px;">Инстаграм, Фэйсбүүкээр бараа зардаг хүмүүсийг "ЛэндМН Мерчант" болгоно.</p>
+                    <ul style="color: var(--text-muted); font-size: 16px; padding-left: 20px; line-height: 1.6;">
+                        <li style="margin-bottom: 10px;"><strong>Pay-by-Link:</strong> Мерчант үнийн дүнгээ бичээд линк үүсгэн чатаар илгээнэ. Хэрэглэгч линкээр орж QPay, Карт, ЛэндМН аль дуртайгаараа төлнө.</li>
+                        <li><strong>Мерчант Портал:</strong> Хэзээ ч, хаана ч гар утаснаасаа борлуулалтаа хянах боломжийг олгох бөгөөд бид вэбсайтгүй (No-code) бизнесүүдийн төлбөрийн гарц болно.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="slide-container" id="slide-gateway-financials">
+    <div class="content-wrapper">
+        <h2 class="slide-title">Gateway Санхүү: <span class="accent-text">Далд алтыг ухах нь</span></h2>
+        <div class="content-area">
+            <div class="calculator-panel" style="border-left: 4px solid #2997ff;">
+                <div class="calc-group">
+                    <div class="calc-label">
+                        <span>Идэвхтэй сошиал мерчантын тоо</span>
+                        <span class="calc-val accent-blue" id="valGwMerchants">500 мерчант</span>
+                    </div>
+                    <input type="range" id="inputGwMerchants" min="100" max="5000" step="100" value="500">
+                </div>
+                <div class="calc-group">
+                    <div class="calc-label">
+                        <span>Сард дундаж эргэлт (1 мерчант)</span>
+                        <span class="calc-val accent-green" id="valGwVolume">5,000,000 ₮</span>
+                    </div>
+                    <input type="range" id="inputGwVolume" min="500000" max="50000000" step="500000" value="5000000">
+                </div>
+            </div>
+
+            <div class="gateway-fin-grid">
+                <div class="gateway-fin-metrics">
+                    <h3><i class="fa-solid fa-scale-unbalanced" style="color: #ff9500; margin-right: 8px;"></i>Шууд ашгийн хуваарилалт</h3>
+                    <div class="gateway-fin-stat">
+                        <div>
+                            <p class="label">Bonum-д төлөх шимтгэл (1.0%)</p>
+                            <strong class="value-bonum" id="outGwTotalCost">25,000,000 ₮</strong>
+                        </div>
+                        <div class="icon-wrap" style="background: rgba(255, 59, 48, 0.1); color: #ff3b30;"><i class="fa-solid fa-arrow-up-right-dots"></i></div>
+                    </div>
+                    <div class="gateway-fin-stat">
+                        <div>
+                            <p class="label">ЛэндМН цэвэр ашиг (0.5% – 1.0% зөрүү)</p>
+                            <strong class="value-profit" id="outGwNetProfit">12,500,000 ₮</strong>
+                        </div>
+                        <div class="icon-wrap" style="background: rgba(52, 199, 89, 0.1); color: #34c759;"><i class="fa-solid fa-wallet"></i></div>
+                    </div>
+                </div>
+
+                <div class="gateway-fin-model">
+                    <span class="badge" style="background: rgba(171, 97, 210, 0.15); color: #ab61d2;"><i class="fa-solid fa-gem"></i> Жинхэнэ Бизнес Модель</span>
+                    <p class="lead">Дээрх шимтгэлийн ашиг бол ердөө л системийн зардлаа нөхөх хэрэгсэл.</p>
+                    <p class="sub">Бидний гол зорилго бол хэрэглэгчийн төлбөрийг ЛэндМН дотор үлдээх болон <strong style="color: var(--text-primary);">датанд суурилсан бизнесийн зээл (SME Loan)</strong> юм.</p>
+                    <ul>
+                        <li><strong>Float Income:</strong> Мерчантын орлого ЛэндМН хэтэвчинд байршсанаар манай мөнгөн хөрөнгийн эргэлт (liquidity) нэмэгдэнэ.</li>
+                        <li><strong>Мерчант Зээл:</strong> Тогтмол орлоготой сошиал худалдаачдад автоматаар барьцаагүй зээлийн эрх үүсгэх нь 0.5%-ийн шимтгэлээс 10 дахин их хүүгийн орлого авчирна.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="slide-container" id="slide-example-1">
+    <div class="content-wrapper">
+        <h2 class="slide-title">Bonum: <span class="accent-text">Payment Gateway</span></h2>
+        <div class="content-area" style="align-items: center;">
+            <img src="gateway.webp" alt="Example Image" style="max-height: 600px; max-width: 100%; object-fit: contain; background: transparent;">
+        </div>
+    </div>
+</div>
+
+<div class="slide-container" id="slide9">
+    <div class="content-wrapper">
+        <h2 class="slide-title">Стратегийн <span class="accent-text">Давуу & Сул тал</span></h2>
+        <div class="content-area">
+            <div class="two-column">
+                <div class="split-card pro">
+                    <h3 style="color: #34c759; margin-bottom: 25px;"><i class="fa-solid fa-arrow-trend-up"></i> Давуу талууд (Pros)</h3>
+                    <ul>
+                        <li><strong>Brand Prestige:</strong> Apple Pay, Google Pay дэмждэг ЛэндМН карт нь зах зээлд брэндийн нэр хүндийг өсгөнө.</li>
+                        <li><strong>Speed to Market:</strong> Өөрсдөө 1-2 жил, 1-2 сая доллар зарцуулахын оронд богино хугацаанд бага зардлаар нэвтэрнэ.</li>
+                        <li><strong>Cross-Selling:</strong> Карт + SoftPOS + Payment Gateway зэрэг нь хэрэглэгч болон мерчант хоорондын төлбөрийн уялдааг үүсгэнэ.</li>
+                    </ul>
+                </div>
+                <div class="split-card con">
+                    <h3 style="color: #ff3b30; margin-bottom: 25px;"><i class="fa-solid fa-arrow-trend-down"></i> Сул талууд (Cons)</h3>
+                    <ul>
+                        <li><strong>Орлогын алдагдал:</strong> Хамгийн том орлого болох Интерченж (~1%) орлогыг бүхэлд нь Bonum авах нь урт хугацаанд ашиггүй модель байж болно.</li>
+                        <li><strong>Vendor Lock-in:</strong> Cardzone систем, үйл ажиллагаа, тасалдал бүрэн Bonum-аас хамаарна.</li>
+                        <li><strong>Хувьсах зардлын өсөлт:</strong> Гүйлгээний шимтгэл 150₮ нь "QR-аар 1000₮ ундаа авах" зан төлөвтэй үед ашигт ажиллагааг шууд унагаана.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="slide-container" id="slide10">
+    <div class="content-wrapper">
+        <h2 class="slide-title">Зах зээлийн харьцуулалт <span style="color:var(--text-secondary); font-size:40px;">(Benchmarking)</span></h2>
+        <div class="content-area">
+            <div class="two-column tiled">
+                <div>
+                    <span class="badge blue">Арилжааны Банкууд</span>
+                    <p style="font-size: 16px; color: var(--text-secondary);">(Хаан, Голомт, ХХБ)</p>
+                    <ul style="color: var(--text-muted); font-size: 18px; margin-top: 20px; padding-left: 20px;">
+                        <li style="margin-bottom: 10px;">Картын жилийн хураамж дунджаар: <strong>20,000₮ - 50,000₮</strong></li>
+                        <li style="margin-bottom: 10px;">Хуванцар карт хэвлэх өөрийн өртөг: <strong>4,000₮ - 7,000₮</strong></li>
+                        <li>Төлбөрийн гарцын шимтгэл: <strong>0.8% - 1.0%</strong></li>
+                    </ul>
+                </div>
+                <div>
+                    <span class="badge green">Финтек & Нео Банк</span>
+                    <p style="font-size: 16px; color: var(--text-secondary);">(M Bank, Sono, M Credit)</p>
+                    <ul style="color: var(--text-muted); font-size: 18px; margin-top: 20px; padding-left: 20px;">
+                        <li style="margin-bottom: 10px;">M банк: Виртуал карт <strong>0₮ хураамжтай</strong>, биет нь үнэтэй стратеги барьж байна.</li>
+                        <li><strong>Дүгнэлт:</strong> ЛэндМН виртуал картад хэрэглэгчээс 33,000₮ шууд авбал өрсөлдөх чадвар суларна. Энэ зардлыг "Зээлийн эрх ашигласны шимтгэл" дотор шингээх шаардлагатай.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="slide-container" id="slide-example-1">
+    <div class="content-wrapper">
+        <h2 class="slide-title">Bonum: <span class="accent-text">Хамтарсан картууд</span></h2>
+        <div class="content-area" style="align-items: center;">
+            <img src="bonumcards.png" alt="Example Image" style="max-height: 600px; max-width: 100%; object-fit: contain; background: transparent;">
+        </div>
+    </div>
+</div>
+
+<div class="slide-container" id="slide-image-apple">
+    <div class="content-wrapper">
+        <h2 class="slide-title">Mastercard: <span class="accent-text">Virtual Cards</span></h2>
+        <div class="content-area">
+            <div style="display: flex; gap: 40px; justify-content: center; width: 100%; align-items: center;">
+                <img src="colorcard.png" alt="Screen 1" style="max-height: 450px; background: transparent;">
+                
+                <img src="tdbcard.png" alt="Screen 2" style="max-height: 450px; background: transparent;">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="slide-container" id="slide-image-apple">
+    <div class="content-wrapper">
+        <h2 class="slide-title">Голомт Банк: <span class="accent-text">Credit Cards</span></h2>
+        <div class="content-area">
+            <div style="display: flex; gap: 40px; justify-content: center; width: 100%; align-items: center;">
+                <img src="goldcredit.png" alt="Screen 1" style="max-height: 450px; background: transparent;">
+                
+                <img src="worldcredit.png" alt="Screen 2" style="max-height: 450px; background: transparent;">
+                
+                <img src="classiccredit.png" alt="Screen 3" style="max-height: 450px; background: transparent;">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="slide-container" id="slide-new-idea-1">
+    <div class="content-wrapper">
+        <h2 class="slide-title">New Idea: <span class="accent-text">Lend Anywhere</span></h2>
+        <div class="content-area">
+            <p style="text-align: center; font-size: 26px; margin-top: -20px; margin-bottom: 40px; max-width: 1600px; line-height: 1.6; color: var(--text-primary);">
+                <strong>Universal Open-Loop BNPL:</strong> Мерчанттай гэрээ хийж цаг алдахгүй. ЛэндМН карт өөрөө хаана ч уншуулсан 15 хоногийн зайтай 2-6 хувааж төлөх боломжтой <strong>нээлттэй систем</strong> болно. Payments with no interest - just an affordable, fixed fee.
+            </p>
+            <div class="two-column tiled">
+                <div style="border-top: 4px solid #2997ff;">
+                    <span class="badge blue">Уламжлалт BNPL (Closed-Loop)</span>
+                    <h3 style="margin-top: 10px;">Мерчантаас хамааралтай</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 15px;">LendDy, Storepay, PocketZero гэх мэт.</p>
+                    <ul style="color: var(--text-muted); font-size: 18px; padding-left: 20px;">
+                        <li style="margin-bottom: 10px;">Зөвхөн гэрээт дэлгүүрт л хувааж төлнө.</li>
+                        <li style="margin-bottom: 10px;">Мерчантаас өндөр шимтгэл (~8-10%) нэхдэг тул сүлжээ тэлэхэд хязгаарлагдмал.</li>
+                        <li>Хэрэглэгч апп руу орж QR уншуулах шаардлагатай (Friction өндөр).</li>
+                    </ul>
+                </div>
+                <div style="border-top: 4px solid #ab61d2;">
+                    <span class="badge" style="background: rgba(171, 97, 210, 0.15); color: #ab61d2;">Lend Anywhere (Open-Loop)</span>
+                    <h3 style="margin-top: 10px;">Хэрэглэгч төвтэй эрх чөлөө</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 15px;">Apple Pay & LendMN Credit Card</p>
+                    <ul style="color: var(--text-muted); font-size: 18px; padding-left: 20px;">
+                        <li style="margin-bottom: 10px;">Дэлхийн хаана ч карт/Apple Pay-ээр уншуулаад апп-аас шууд хуваах боломжтой.</li>
+                        <li style="margin-bottom: 10px;">Шимтгэлийг мерчант биш хэрэглэгч төлөх тул мерчанттай гэрээлэх шаардлагагүй 100% тэлэлт.</li>
+                        <li>Tap to pay - Шууд уншуулах тул UX маш хурдан.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="slide-container left-align" id="slide-new-idea-2">
+    <div class="content-wrapper">
+        <h2 class="slide-title">Lend Anywhere: <span class="accent-blue">Архитектур & Хөрвүүлэлт</span></h2>
+        <div class="content-area">
+            <div class="two-column">
+                <div class="bullet-list">
+                    <h3 style="margin-bottom: 25px;">Гүйлгээний Урсгал (Transaction Flow)</h3>
+                    <ul>
+                        <li><i class="fa-solid fa-credit-card"></i><strong>1. Худалдан авалт (Impulse)</strong>Хэрэглэгч Apple Pay-ээр 1.2 сая ₮-ийн худалдан авалт хийнэ. Кредит эрхээс хасагдана.</li>
+                        <li><i class="fa-solid fa-bell"></i><strong>2. Ухаалаг Сануулга (Trigger)</strong>Яг тэр мөчид ЛэндМН апп-аас "Та энэ төлбөрөө 15 хоногийн зайтай 2-6 хувааж төлөөд санхүүгийн ачааллаа бууруулах уу?" гэх сануулга очно.</li>
+                        <li><i class="fa-solid fa-wand-magic-sparkles"></i><strong>3. Хөрвүүлэлт (Post-Purchase Conversion)</strong>Хэрэглэгч зөвшөөрөх товч дарна. Тухайн гүйлгээний дүн үндсэн нэхэмжлэлээс хасагдаж, 15 хоногийн давтамжтай BNPL график руу шилжинэ.</li>
+                    </ul>
+                </div>
+                <div style="background: var(--card-bg); padding: 40px; border-radius: 20px; border-top: 4px solid #34c759; border-left: 1px solid var(--border-color); border-right: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color);">
+                    <h3 style="color: #34c759; margin-bottom: 20px;"><i class="fa-solid fa-brain" style="margin-right: 10px;"></i>Зан төлөвийн шинжилгээ (Psychology)</h3>
+                    <p style="color: var(--text-primary); font-size: 18px; line-height: 1.6;"><strong>Buyer's Remorse (Худалдан авалтын гэмшил):</strong></p>
+                    <p style="color: var(--text-secondary); font-size: 16px; margin-bottom: 20px;">Хүн том дүнгээр худалдан авалт хийснийхээ дараа яг тэр даруйдаа "Их мөнгө үрчихлээ" гэх санхүүгийн дарамтыг мэдэрдэг. Энэхүү сэтгэл зүйн цэг дээр "Хувааж төлөх" сонголт өгөх нь хамгийн өндөр борлуулалт/хөрвүүлэлт авчирдаг батлагдсан стратеги юм.</p>
+                    <div style="background: var(--border-color); padding: 15px; border-radius: 10px;">
+                        <p style="color: #2997ff; margin: 0; font-weight: 500;"><i class="fa-solid fa-chart-line"></i> Хэрэглэгч гүйлгээ хийх үедээ биш, хийснийхээ ДАРАА хуваах нь илүү эрсдэлгүй санагддаг.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="slide-container" id="slide-new-idea-3">
+    <div class="content-wrapper">
+        <h2 class="slide-title" style="margin-bottom: 30px;">BNPL: <span class="accent-text">Орлогын Модель Тооцоолуур</span></h2>
+        <div class="content-area">
+            
+            <div class="two-column" style="gap: 40px; align-items: stretch;">
+                <div style="background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 30px; display: flex; flex-direction: column; justify-content: space-around; box-shadow: var(--shadow);">
+                    <h3 style="color: var(--text-primary); margin-bottom: 20px; font-size: 22px;">Тохиргоо (15 хоногийн мөчлөгт)</h3>
+                    
+                    <div class="calc-group" style="margin-bottom: 25px;">
+                        <div class="calc-label">
+                            <span>Гүйлгээний дүн:</span>
+                            <span class="calc-val accent-blue" id="valBnplAmount">500,000 ₮</span>
+                        </div>
+                        <input type="range" id="inputBnplAmount" min="50000" max="3000000" step="50000" value="500000">
+                    </div>
+                    
+                    <div class="calc-group" style="margin-bottom: 25px;">
+                        <div class="calc-label">
+                            <span>Хуваах тоо:</span>
+                            <span class="calc-val accent-green" id="valBnplSplits">4 хуваах</span>
+                        </div>
+                        <input type="range" id="inputBnplSplits" min="2" max="6" step="1" value="4">
+                    </div>
+
+                    <div class="calc-group">
+                        <div class="calc-label">
+                            <span>Нийт шимтгэл (%):</span>
+                            <span class="calc-val accent-red" id="valBnplFee">5 %</span>
+                        </div>
+                        <input type="range" id="inputBnplFee" min="1" max="15" step="0.5" value="5">
+                    </div>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 20px;">
+                    
+                    <div style="background: var(--card-bg); border-left: 4px solid #2997ff; border-radius: 16px; padding: 25px; border-top: 1px solid var(--border-color); border-right: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); box-shadow: var(--shadow);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                            <h3 style="margin: 0; font-size: 20px; color: var(--text-primary);">Модель А: Нэг удаагийн шимтгэл (Upfront)</h3>
+                            <span class="badge blue" style="margin:0;">Хамгийн эрэлттэй</span>
+                        </div>
+                        <p style="color: var(--text-secondary); font-size: 15px; margin-bottom: 15px;">Шимтгэлийг эхний 15 хоногийн төлөлт дээр бүтнээр нь нэмж авна. Компанид орлого шууд төвлөрнө.</p>
+                        <div class="apple-grid">
+                            <div class="apple-grid-row" style="grid-template-columns: 1fr 1fr;">
+                                <div class="apple-grid-cell" style="padding: 15px;">Эхний төлөлт (Шимтгэл орсон):</div>
+                                <div class="apple-grid-cell" style="padding: 15px; justify-content: flex-end;"><strong id="outUpfrontPay1">150,000 ₮</strong></div>
+                            </div>
+                            <div class="apple-grid-row" style="grid-template-columns: 1fr 1fr;">
+                                <div class="apple-grid-cell" style="padding: 15px;">Дараагийн төлөлтүүд (15 хоног тутам):</div>
+                                <div class="apple-grid-cell" style="padding: 15px; justify-content: flex-end;"><strong id="outUpfrontOtherPays">125,000 ₮</strong></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="background: var(--card-bg); border-left: 4px solid #34c759; border-radius: 16px; padding: 25px; border-top: 1px solid var(--border-color); border-right: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); box-shadow: var(--shadow);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                            <h3 style="margin: 0; font-size: 20px; color: var(--text-primary);">Модель Б: Тэнцүү хуваах (Flat Spread)</h3>
+                            <span class="badge green" style="margin:0;">Уламжлалт хэлбэр</span>
+                        </div>
+                        <p style="color: var(--text-secondary); font-size: 15px; margin-bottom: 15px;">Шимтгэлийг нийт төлөлтүүдэд тэнцүү хувааж авна. Хэрэглэгчид очих дарамтыг илүү жигдлэнэ.</p>
+                        <div class="apple-grid">
+                            <div class="apple-grid-row" style="grid-template-columns: 1fr 1fr; background-color: rgba(52, 199, 89, 0.05);">
+                                <div class="apple-grid-cell" style="padding: 15px;">Төлөлт бүрээр тэнцүү (15 хоног тутам):</div>
+                                <div class="apple-grid-cell" style="padding: 15px; justify-content: flex-end;"><strong id="outFlatPayment" style="color: #34c759; font-size: 26px;">131,250 ₮</strong></div>
+                            </div>
+                            <div class="apple-grid-row" style="grid-template-columns: 1fr 1fr;">
+                                <div class="apple-grid-cell" style="padding: 10px 15px; font-size: 14px; color: var(--text-secondary);">Цэвэр орлого (Нийт шимтгэл):</div>
+                                <div class="apple-grid-cell" style="padding: 10px 15px; justify-content: flex-end; font-size: 14px; color: var(--text-secondary);"><strong id="outTotalFeeAmount" style="font-size: 16px;">25,000 ₮</strong></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<div class="slide-container" id="slide11">
+    <div class="content-wrapper">
+        <h2 class="slide-title">Нэгдсэн Эрсдэл ба <span class="accent-text">Бууруулах Стратеги</span></h2>
+        <div class="content-area">
+            <div class="risk-matrix-card">
+                <table class="risk-matrix-table">
+                    <thead>
+                        <tr>
+                            <th>Эрсдэл</th>
+                            <th>Нөлөө</th>
+                            <th>Бууруулах стратеги</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Интерченж 100% алдагдал</td>
+                            <td><span class="badge red" style="margin:0;">ӨНДӨР</span></td>
+                            <td>Volume-based revenue share хэлэлцэх. BNPL орлогоор нөхөх.</td>
+                        </tr>
+                        <tr>
+                            <td>Бичил гүйлгээний 150₮ алдагдал</td>
+                            <td><span class="badge orange" style="margin:0;">ДУНД</span></td>
+                            <td>Minimum ticket size (5,000₮+) эсвэл %-ийн загвар.</td>
+                        </tr>
+                        <tr>
+                            <td>Vendor lock-in (Bonum)</td>
+                            <td><span class="badge red" style="margin:0;">ӨНДӨР</span></td>
+                            <td>2-3 жилийн exit strategy: өөрсдийн лиценз авах roadmap.</td>
+                        </tr>
+                        <tr>
+                            <td>Fraud / Chargeback хариуцлага</td>
+                            <td><span class="badge red" style="margin:0;">ӨНДӨР</span></td>
+                            <td>Гэрээнд liability shift заах. Fraud loss provision тооцох.</td>
+                        </tr>
+                        <tr>
+                            <td>SoftPOS iOS хязгаарлалт</td>
+                            <td><span class="badge orange" style="margin:0;">ДУНД</span></td>
+                            <td>Apple NFC API шалгах. Pilot go/no-go шалгуур тавих.</td>
+                        </tr>
+                        <tr>
+                            <td>Маркетинг commitment өндөр</td>
+                            <td><span class="badge green" style="margin:0;">БАГА</span></td>
+                            <td>Гэрээнд маркетинг төсвийн дээд хязгаар (cap) тогтоох.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="slide-container" id="slide12">
+    <div class="content-wrapper section-title-layout">
+        <h3 style="color: var(--text-secondary); text-transform: uppercase; letter-spacing: 2px;">Эцсийн дүгнэлт</h3>
+        <h2 style="font-size: 80px; margin: 20px 0;" class="accent-green">НЭВТРҮҮЛЭХ</h2>
+        <p style="font-size: 24px; color: var(--text-primary); max-width: 900px; line-height: 1.5; margin-bottom: 40px;">ЛэндМН-д Apple Pay, Payment Gateway болон SoftPOS зайлшгүй хэрэгтэй. Гэхдээ одоогийн үнийн саналыг шууд хүлээж авах эсэхийг доорх зүйлсийг тодорхойлон <strong>дахин ярилцах</strong> шаардлагатай.</p>
+        
+        <div style="display: flex; gap: 20px; width: 100%; max-width: 1100px; text-align: left;">
+            <div style="flex: 1; background: var(--card-bg); padding: 30px; border-radius: 16px; border-top: 3px solid #2997ff; border-left: 1px solid var(--border-color); border-right: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); box-shadow: var(--shadow);">
+                <h4 style="font-size: 20px; margin: 0 0 15px 0;">1. Үнийн хэлэлцээр</h4>
+                <p style="color: var(--text-secondary); font-size: 16px; margin: 0;">150₮ хураамжийг бага дүнтэй гүйлгээн дээр тэглэх/бууруулах. Интерченж орлогыг хуваалцах санал тавих.</p>
+            </div>
+            <div style="flex: 1; background: var(--card-bg); padding: 30px; border-radius: 16px; border-top: 3px solid #2997ff; border-left: 1px solid var(--border-color); border-right: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); box-shadow: var(--shadow);">
+                <h4 style="font-size: 20px; margin: 0 0 15px 0;">2. SoftPOS Нөхцөл</h4>
+                <p style="color: var(--text-secondary); font-size: 16px; margin: 0;">SDK-г апп-д суулгах техникийн шаардлага болон Gateway/Acquiring шимтгэлийн хувийг эцэслэн тохирох.</p>
+            </div>
+            <div style="flex: 1; background: var(--card-bg); padding: 30px; border-radius: 16px; border-top: 3px solid #2997ff; border-left: 1px solid var(--border-color); border-right: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); box-shadow: var(--shadow);">
+                <h4 style="font-size: 20px; margin: 0 0 15px 0;">3. Үнийн модель батлах</h4>
+                <p style="color: var(--text-secondary); font-size: 16px; margin: 0;">Хэрэглэгчээс авах жилийн хураамж (33к болон 150₮), зээлийн хүүгийн бүтцийг зардалд нийцүүлэн дотооддоо шийдвэрлэн батлах.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        
+        // --- 0. THEME TOGGLE LOGIC ---
+        const themeBtn = document.getElementById('themeToggleBtn');
+        const themeIcon = themeBtn.querySelector('i');
+        
+        // LocalStorage-ээс хадгалсан тохиргоог шалгах, байхгүй бол light ашиглах
+        const savedTheme = localStorage.getItem('presentationTheme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        updateThemeIcon(savedTheme);
+
+        themeBtn.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('presentationTheme', newTheme);
+            updateThemeIcon(newTheme);
+        });
+
+        function updateThemeIcon(theme) {
+            if(theme === 'light') {
+                themeIcon.className = 'fa-solid fa-moon'; // Light үед сар харагдаж dark рүү шилжихийг сануулна
+            } else {
+                themeIcon.className = 'fa-solid fa-sun';  // Dark үед нар харагдана
+            }
+        }
+
+
+        // --- 1. SLIDE NAVIGATION LOGIC ---
+        const slides = document.querySelectorAll('.slide-container');
+        const navContainer = document.getElementById('slideNav');
+        let currentSlideIndex = 0;
+
+        slides.forEach((slide, index) => {
+            const dot = document.createElement('div');
+            dot.classList.add('nav-dot');
+            if(index === 0) dot.classList.add('active');
+            
+            dot.addEventListener('click', () => {
+                slide.scrollIntoView({ behavior: 'smooth' });
+            });
+            navContainer.appendChild(dot);
+        });
+
+        const dots = document.querySelectorAll('.nav-dot');
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const index = Array.from(slides).indexOf(entry.target);
+                    dots.forEach(d => d.classList.remove('active'));
+                    dots[index].classList.add('active');
+                    currentSlideIndex = index;
+                }
+            });
+        }, { threshold: 0.5 }); 
+
+        slides.forEach(slide => observer.observe(slide));
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+                e.preventDefault();
+                if (currentSlideIndex < slides.length - 1) {
+                    slides[currentSlideIndex + 1].scrollIntoView({ behavior: 'smooth' });
+                }
+            } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+                e.preventDefault();
+                if (currentSlideIndex > 0) {
+                    slides[currentSlideIndex - 1].scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        });
+
+
+        // --- 2. INTERACTIVE CALCULATOR LOGIC (Slide 8) ---
+        const inputCards = document.getElementById('inputCards');
+        const inputTxns = document.getElementById('inputTxns');
+        
+        const valCards = document.getElementById('valCards');
+        const valTxns = document.getElementById('valTxns');
+        
+        const calcCardCost = document.getElementById('calcCardCost');
+        const calcTxnCost = document.getElementById('calcTxnCost');
+        const calcTotalCost = document.getElementById('calcTotalCost');
+
+        const COST_PER_CARD_YEARLY = 33000;
+        const COST_PER_TXN = 150;
+        const DAYS_IN_YEAR = 365;
+
+        const formatMoney = (num) => {
+            return new Intl.NumberFormat('en-US').format(Math.round(num));
+        };
+
+        const calculateFinancials = () => {
+            if (!inputCards) return;
+            const cards = parseFloat(inputCards.value);
+            const txnsPerDay = parseFloat(inputTxns.value);
+
+            valCards.innerText = `${formatMoney(cards)} карт`;
+            valTxns.innerText = `${txnsPerDay} гүйлгээ / өдөр`;
+
+            const yearlyCardCost = cards * COST_PER_CARD_YEARLY;
+            const yearlyTxnCost = cards * txnsPerDay * DAYS_IN_YEAR * COST_PER_TXN;
+            const totalYearlyCost = yearlyCardCost + yearlyTxnCost;
+
+            calcCardCost.innerText = formatMoney(yearlyCardCost);
+            calcTxnCost.innerText = formatMoney(yearlyTxnCost);
+            calcTotalCost.innerText = formatMoney(totalYearlyCost) + " ₮";
+        };
+
+        if (inputCards) {
+            inputCards.addEventListener('input', calculateFinancials);
+            inputTxns.addEventListener('input', calculateFinancials);
+            calculateFinancials();
+        }
+
+        // --- 3. BNPL CALCULATOR LOGIC ---
+        const inputBnplAmount = document.getElementById('inputBnplAmount');
+        const inputBnplSplits = document.getElementById('inputBnplSplits');
+        const inputBnplFee = document.getElementById('inputBnplFee');
+        
+        const valBnplAmount = document.getElementById('valBnplAmount');
+        const valBnplSplits = document.getElementById('valBnplSplits');
+        const valBnplFee = document.getElementById('valBnplFee');
+        
+        const outUpfrontPay1 = document.getElementById('outUpfrontPay1');
+        const outUpfrontOtherPays = document.getElementById('outUpfrontOtherPays');
+        const outFlatPayment = document.getElementById('outFlatPayment');
+        const outTotalFeeAmount = document.getElementById('outTotalFeeAmount');
+
+        const calculateBNPL = () => {
+            if (!inputBnplAmount) return; 
+            
+            const amount = parseFloat(inputBnplAmount.value);
+            const splits = parseInt(inputBnplSplits.value); 
+            const feePercent = parseFloat(inputBnplFee.value) / 100;
+
+            valBnplAmount.innerText = `${new Intl.NumberFormat('en-US').format(amount)} ₮`;
+            valBnplSplits.innerText = `${splits} хуваах`;
+            valBnplFee.innerText = `${inputBnplFee.value} %`;
+
+            const totalFeeAmount = amount * feePercent; 
+            const principalPerSplit = amount / splits;  
+
+            const upfrontPay1 = principalPerSplit + totalFeeAmount;
+            const upfrontOtherPays = principalPerSplit;
+            const flatPayment = (amount + totalFeeAmount) / splits;
+
+            outUpfrontPay1.innerText = `${new Intl.NumberFormat('en-US').format(Math.round(upfrontPay1))} ₮`;
+            outUpfrontOtherPays.innerText = `${new Intl.NumberFormat('en-US').format(Math.round(upfrontOtherPays))} ₮`;
+            outFlatPayment.innerText = `${new Intl.NumberFormat('en-US').format(Math.round(flatPayment))} ₮`;
+            outTotalFeeAmount.innerText = `${new Intl.NumberFormat('en-US').format(Math.round(totalFeeAmount))} ₮`;
+        };
+
+        if (inputBnplAmount) {
+            inputBnplAmount.addEventListener('input', calculateBNPL);
+            inputBnplSplits.addEventListener('input', calculateBNPL);
+            inputBnplFee.addEventListener('input', calculateBNPL);
+            calculateBNPL(); 
+        }
+    });
+</script>
+<script>
+    // --- Payment Gateway тооцоолуурын код ---
+    const inputGwMerchants = document.getElementById('inputGwMerchants');
+    const inputGwVolume = document.getElementById('inputGwVolume');
+    const valGwMerchants = document.getElementById('valGwMerchants');
+    const valGwVolume = document.getElementById('valGwVolume');
+    const outGwTotalCost = document.getElementById('outGwTotalCost');
+    const outGwNetProfit = document.getElementById('outGwNetProfit');
+
+    const GW_COST_FEE_PERCENT = 0.01; // 1.0%
+    const GW_REVENUE_FEE_PERCENT = 0.015; // 1.5% 
+
+    if (inputGwMerchants) {
+        const calculateGatewayFinancials = () => {
+            const merchants = parseFloat(inputGwMerchants.value);
+            const volumePerMerchant = parseFloat(inputGwVolume.value);
+
+            // Тоог мөнгөн дүнгийн формат руу оруулах
+            const formattedMerchants = new Intl.NumberFormat('en-US').format(Math.round(merchants));
+            const formattedVolume = new Intl.NumberFormat('en-US').format(Math.round(volumePerMerchant));
+
+            valGwMerchants.innerText = `${formattedMerchants} мерчант`;
+            valGwVolume.innerText = `${formattedVolume} ₮`;
+
+            const totalVolume = merchants * volumePerMerchant;
+            const totalCost = totalVolume * GW_COST_FEE_PERCENT;
+            const totalRevenue = totalVolume * GW_REVENUE_FEE_PERCENT;
+            const netProfit = totalRevenue - totalCost;
+
+            outGwTotalCost.innerText = `${new Intl.NumberFormat('en-US').format(Math.round(totalCost))} ₮`;
+            outGwNetProfit.innerText = `${new Intl.NumberFormat('en-US').format(Math.round(netProfit))} ₮`;
+        };
+
+        inputGwMerchants.addEventListener('input', calculateGatewayFinancials);
+        inputGwVolume.addEventListener('input', calculateGatewayFinancials);
+        calculateGatewayFinancials();
+    }
+</script>
+</body>
+</html>
